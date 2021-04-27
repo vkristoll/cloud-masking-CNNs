@@ -1,0 +1,45 @@
+#Convert a Sentinel-2 band of .jp2 format to a .tif. It can also change the size of the image
+
+#.jp2: input file
+#-ot: output type
+#-of: output file
+#-outsize: output size in pixels
+#.tif: output file
+
+gdal_translate T31TFH_20180214T103131_B02.jp2  -ot Float32 -of Gtiff -outsize 1830 1830  T31TFH_20180214T103131_B02.tif   
+---------------------------------------------------------------------------------
+  
+#Command that runs in a folder with multiple images
+
+for f in *.SAFE/GRANULE/L1C*/IMG_DATA/*B*.jp2; do
+     gdal_translate "$f" -ot Float32 -of Gtiff -outsize 1830 1830 "${f%.*}.tif"
+done
+
+for f in *.tiff; do
+     gdal_translate "$f" -ot Byte -of Gtiff -outsize 1830 1830 "${f%.*}_60.tif"
+done
+-------------------------------------------------------------------------------------
+
+# Merge bands stored in separate files in one file
+
+gdal_merge.py -o  merge.tif -of Gtiff -separate -ot FLOAT32 *.tif     
+
+--------------------------------------
+
+#Cut image
+gdal_translate T31TFH_20180110T103409_merge.tif ot Float32 -of Gtiff -srcwin 0 700 1830 1130 T31TFH_20180110T103409_cut.tif 
+									     
+----------------------------------
+# Run command in folder with multiple images
+
+for f in *.tif; do
+     gdal_translate "$f" -ot Float32 -of Gtiff -srcwin 0 700 1830 1130 "${f%.*}_cut.tif"
+done
+
+for f in *.tif; do
+     gdal_translate "$f" -ot Byte -of Gtiff -srcwin 0 700 1830 1130  "${f%.*}_cut.tif"
+done
+
+
+
+
