@@ -6,4 +6,5 @@ Kristollari, Viktoria, and Vassilia Karathanassi. "Convolutional neural networks
 
 It can be accessed in: https://doi.org/10.1117/12.2571111
 
+If you use this code please cite the paper mentioned above.
 
