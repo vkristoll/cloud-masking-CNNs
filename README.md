@@ -1,4 +1,4 @@
-# Cloud masking with convolutional neural networks (ANNs)
+# Cloud masking with convolutional neural networks (CNNs)
 
 This repository contains code related to the study analyzed in the paper cited below:
 
